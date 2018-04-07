@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wxp.dao.TargetAppMapper" >
+  <resultMap id="BaseResultMap" type="com.wxp.model.TargetApp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="download_url" property="downloadUrl" jdbcType="VARCHAR" />
+    <result column="target_version" property="targetVersion" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="is_include" property="isInclude" jdbcType="TINYINT" />
+    <result column="plugin_id" property="pluginId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wxp.model.TargetApp" extends="BaseResultMap" >
+    <result column="desc_" property="desc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  	<sql id="targetAppConlumns">
+			
+			a.package_name As "packageName",
+			a.download_url AS "downloadUrl",
+			a.target_version AS "targetVersion",
+			a.name AS "name",
+			a.icon AS "icon",
+			a.is_include AS "isInclude",
+			a.plugin_id AS "pluginId",
+			a.id  AS "id",
+			a.desc_  AS "desc",
+			
+			b.id AS "appPlugin.id",
+			b.version AS "appPlugin.version",
+			b.money AS "appPlugin.money",
+			b.icon AS "appPlugin.icon",
+			b.auto_install AS "appPlugin.autoInstall",
+			b.is_debug AS "appPlugin.isDebug",
+			b.desc_ AS "appPlugin.desc"
+
+			
+	</sql>
+	
+	
+	
+	<select id="findList" resultType="com.wxp.model.TargetApp">
+		select 
+		   <include refid="targetAppConlumns"/>
+		from TargetApp a left join AppPlugin b on a.plugin_id=b.id
+	</select>
+	
+  
+  <sql id="Base_Column_List" >
+    id, package_name, download_url, target_version, name, icon, is_include, plugin_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    desc_
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TargetApp
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TargetApp
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wxp.model.TargetApp" >
+    insert into TargetApp (id, package_name, download_url, 
+      target_version, name, icon, 
+      is_include, plugin_id, desc_
+      )
+    values (#{id,jdbcType=INTEGER}, #{packageName,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR}, 
+      #{targetVersion,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{isInclude,jdbcType=TINYINT}, #{pluginId,jdbcType=INTEGER}, #{desc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wxp.model.TargetApp" >
+    insert into TargetApp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+      <if test="downloadUrl != null" >
+        download_url,
+      </if>
+      <if test="targetVersion != null" >
+        target_version,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="isInclude != null" >
+        is_include,
+      </if>
+      <if test="pluginId != null" >
+        plugin_id,
+      </if>
+      <if test="desc != null" >
+        desc_,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadUrl != null" >
+        #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="targetVersion != null" >
+        #{targetVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isInclude != null" >
+        #{isInclude,jdbcType=TINYINT},
+      </if>
+      <if test="pluginId != null" >
+        #{pluginId,jdbcType=INTEGER},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wxp.model.TargetApp" >
+    update TargetApp
+    <set >
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadUrl != null" >
+        download_url = #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="targetVersion != null" >
+        target_version = #{targetVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isInclude != null" >
+        is_include = #{isInclude,jdbcType=TINYINT},
+      </if>
+      <if test="pluginId != null" >
+        plugin_id = #{pluginId,jdbcType=INTEGER},
+      </if>
+      <if test="desc != null" >
+        desc_ = #{desc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wxp.model.TargetApp" >
+    update TargetApp
+    set package_name = #{packageName,jdbcType=VARCHAR},
+      download_url = #{downloadUrl,jdbcType=VARCHAR},
+      target_version = #{targetVersion,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      is_include = #{isInclude,jdbcType=TINYINT},
+      plugin_id = #{pluginId,jdbcType=INTEGER},
+      desc_ = #{desc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wxp.model.TargetApp" >
+    update TargetApp
+    set package_name = #{packageName,jdbcType=VARCHAR},
+      download_url = #{downloadUrl,jdbcType=VARCHAR},
+      target_version = #{targetVersion,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      is_include = #{isInclude,jdbcType=TINYINT},
+      plugin_id = #{pluginId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

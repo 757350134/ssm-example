@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wxp.dao.AppPluginMapper" >
+   
+  <resultMap type="com.wxp.model.AppPlugin" id="AppPluginBean">    
+        <id column="aid" property="id"/>    
+        <result column="a_version" property="version"/>    
+        <result column="a_money" property="money"/>        
+        
+        <result column="a_icon" property="icon"/>    
+        <result column="a_auto_install" property="autoInstall"/>        
+        
+        <result column="a_is_debug" property="isDebug"/>    
+        <result column="a_desc_info" property="desc"/>        
+        
+         
+        <!-- 一对多的关系 -->    
+        <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->    
+        <collection property="targetAppList" ofType="com.wxp.model.TargetApp">    
+            <id column="id" property="id"/>    
+            <result column="package_name" property="packageName"/>    
+            <result column="download_url" property="downloadUrl"/>    
+            <result column="target_version" property="targetVersion"/>
+            
+            <result column="name" property="name"/>    
+            <result column="icon" property="icon"/>    
+            <result column="is_include" property="isInclude"/>
+            
+            <result column="app_plugin_id" property="pluginId"/>    
+            <result column="desc_info" property="desc"/>    
+                
+        </collection>    
+    </resultMap>     
+   
+  
+<select id="findAppPluginList" resultMap="AppPluginBean">
+	select 
+	  a.id aid,a.version a_version,a.money a_money,a.icon a_icon,a.auto_install a_auto_install,a.is_debug a_is_debug,a.desc_info  a_desc_info,b.*
+	from AppPlugin a left join TargetApp b on  a.id=b.app_plugin_id where a.is_debug=1 and a.enable=1
+</select>
+  
+</mapper>

@@ -32,4 +32,9 @@ public class AppPluginServiceImpl implements AppPluginService{
 		return result;
 	}
 
+	@Override
+	public String getMessage() {
+		return "new message";
+	}
+
 }

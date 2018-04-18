@@ -8,4 +8,6 @@ import com.wxp.model.TargetApp;
 
 public interface AppPluginService {
 	Map<String,Object> findAppPluginList();
+
+	String getMessage();
 }

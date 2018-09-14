@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AopTest {
-	ApplicationContext ac = new ClassPathXmlApplicationContext("spring-context.xml");
+	/*ApplicationContext ac = new ClassPathXmlApplicationContext("spring-context.xml");
 	@Test
 	public  void test1() {
 		//排除拦截
@@ -21,5 +21,5 @@ public class AopTest {
 	public void test2() {
 		AopUtils us =  (AopUtils) ac.getBean("aopUtils");
 		us.noStatic();
-	}
+	}*/
 }
